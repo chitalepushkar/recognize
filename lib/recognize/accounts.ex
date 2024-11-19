@@ -377,9 +377,16 @@ defmodule Recognize.Accounts do
   end
 
   @spec list_received_recognitions(Ecto.UUID.t()) :: list(Recognition.t())
-  def list_received_recognitions(user_id) do
+  def list_received_recognitions(recipient_id) do
     Recognition
-    |> Recognition.where_recipient_id(user_id)
+    |> Recognition.where_recipient_id(recipient_id)
+    |> Repo.all()
+  end
+
+  @spec list_sent_recognitions(Ecto.UUID.t()) :: list(Recognition.t())
+  def list_sent_recognitions(sender_id) do
+    Recognition
+    |> Recognition.where_sender_id(sender_id)
     |> Repo.all()
   end
 end

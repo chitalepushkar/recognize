@@ -27,4 +27,13 @@ defmodule Recognize.Accounts.Recognition do
       where: recipient.recipient_id == ^user_id,
       preload: [:sender]
   end
+
+  def where_sender_id(query \\ __MODULE__, user_id) do
+    from recognition in query,
+      join: recipient in assoc(recognition, :recipients),
+      join: user in User,
+      on: user.id == recipient.recipient_id,
+      where: recognition.sender_id == ^user_id,
+      preload: [:recipients]
+  end
 end

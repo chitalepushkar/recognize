@@ -1,5 +1,33 @@
 # Recognize
 
+An app to recognize team members for their contributions.
+
+## Data Model
+
+```mermaid
+erDiagram;
+	recognitions ||--o{ recipients : has
+	recipients ||--|| users : has
+
+	users {
+		id UUID
+		first_name string "NOT NULL"
+		last_name string
+	
+	}
+	
+	recipients {
+		recipient_id UUID FK "NOT NULL"
+		recognition_id UUID FK "NOT NULL"
+	}
+	
+	recognitions {
+		id UUID
+		sender_id UUID FK "NOT NULL"
+		message text "NOT NULL"
+	}
+```
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
