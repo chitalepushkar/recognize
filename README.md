@@ -5,7 +5,7 @@ An app to recognize team members for their contributions.
 ## Data Model
 
 ```mermaid
-erDiagram;
+erDiagram
 	recognitions ||--o{ recipients : has
 	recipients ||--|| users : has
 
