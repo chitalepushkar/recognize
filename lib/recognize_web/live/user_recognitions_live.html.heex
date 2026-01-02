@@ -2,7 +2,7 @@
   <div>
     <.form for={@form} phx-submit="save">
       <.input
-        type="text"
+        type="textarea"
         label="Description"
         field={@form[:message]}
         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
@@ -21,36 +21,8 @@
       </div>
     </.form>
   </div>
-  <div>
-    <div>
-      <ul role="list" class="divide-y divide-gray-100">
-        <%= for recognition <- @recognitions do %>
-          <li class="flex justify-between gap-x-6 py-5">
-            <div class="flex min-w-0 gap-x-4">
-              <img
-                class="size-12 flex-none rounded-full bg-gray-50"
-                src={recognition.sender.image_url}
-                alt=""
-              />
-              <div class="min-w-0 flex-auto">
-                <p class="text-sm/6 font-semibold text-gray-900"><%= recognition.message %></p>
-                <p class="mt-1 truncate text-xs/5 text-gray-500">
-                  <%= recognition.sender.first_name %>
-                </p>
-              </div>
-            </div>
-            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p class="text-sm/6 text-gray-900"><%= recognition.sender.email %></p>
-              <p class="mt-1 text-xs/5 text-gray-500">
-                Posted
-                <time datetime="2023-01-23T13:23Z">
-                  <%= Timex.from_now(recognition.inserted_at) %>
-                </time>
-              </p>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
+
+  <RecognitionTabsComponent.tabs page_type={@page_type} />
+
+  <RecognitionListComponent.table page_type={@page_type} recognitions={@recognitions} />
 </div>

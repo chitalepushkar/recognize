@@ -25,7 +25,8 @@ defmodule Recognize.Accounts.Recognition do
       join: user in User,
       on: user.id == recipient.recipient_id,
       where: recipient.recipient_id == ^user_id,
-      preload: [:sender]
+      preload: [:sender],
+      order_by: [desc: recognition.inserted_at]
   end
 
   def where_sender_id(query \\ __MODULE__, user_id) do
@@ -34,6 +35,8 @@ defmodule Recognize.Accounts.Recognition do
       join: user in User,
       on: user.id == recipient.recipient_id,
       where: recognition.sender_id == ^user_id,
-      preload: [:recipients]
+      preload: [recipients: [:recipient]],
+      group_by: recognition.id,
+      order_by: [desc: recognition.inserted_at]
   end
 end

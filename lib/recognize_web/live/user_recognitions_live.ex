@@ -3,23 +3,31 @@ defmodule RecognizeWeb.UserRecognitionsLive do
   use RecognizeWeb, :live_view
 
   alias Recognize.Accounts
+  alias RecognizeWeb.RecognitionListComponent
+  alias RecognizeWeb.RecognitionTabsComponent
 
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_user
-    # Let's assume a fixed temperature for now
+
     recipient_options =
       current_user.id
       |> Accounts.list_recipients_for_sender()
       |> Enum.map(&{&1.first_name, &1.id})
 
-    recognitions = Accounts.list_received_recognitions(current_user.id)
-
     {:ok,
      assign(socket,
-       recognitions: recognitions,
        recipient_options: recipient_options,
        form: to_form(%{})
      )}
+  end
+
+  def handle_params(params, _uri, socket) do
+    socket =
+      socket
+      |> assign_page_type(params)
+      |> assign_recognitions(params)
+
+    {:noreply, socket}
   end
 
   def handle_event("save", params, socket) do
@@ -37,5 +45,25 @@ defmodule RecognizeWeb.UserRecognitionsLive do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  defp assign_page_type(socket, %{"page_type" => "received"}) do
+    assign(socket, page_type: :received)
+  end
+
+  defp assign_page_type(socket, _params) do
+    assign(socket, page_type: :sent)
+  end
+
+  defp assign_recognitions(socket, %{"page_type" => "received"}) do
+    current_user = socket.assigns.current_user
+    recognitions = Accounts.list_received_recognitions(current_user.id)
+    assign(socket, recognitions: recognitions)
+  end
+
+  defp assign_recognitions(socket, _params) do
+    current_user = socket.assigns.current_user
+    recognitions = Accounts.list_sent_recognitions(current_user.id)
+    assign(socket, recognitions: recognitions)
   end
 end
