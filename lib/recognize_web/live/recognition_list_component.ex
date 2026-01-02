@@ -44,7 +44,6 @@ defmodule RecognizeWeb.RecognitionListComponent do
       <div>
         <ul role="list" class="divide-y divide-gray-100">
           <%= for recognition <- @recognitions do %>
-            <% IO.inspect(recognition) %>
             <li class="flex justify-between gap-x-6 py-5">
               <div class="flex min-w-0 gap-x-4">
                 <div class="min-w-0 flex-auto">
