@@ -28,7 +28,24 @@ erDiagram
 	}
 ```
 
-To start your Phoenix server:
+## Instructions
+
+### Installation
+
+In order to install Elixir and Erlang, you can first install a tool version manager like [asdf](https://asdf-vm.com/) or [mise-en-place](https://mise.jdx.dev/) and then run
+
+For mise:
+```
+mise install
+```
+OR
+
+For asdf:
+```
+asdf install
+```
+
+Once the dependencies are installed, you can run the following commands:
 
   * Run `mix setup` to install and setup dependencies
   * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
